@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class OptionalExampleTest {
 
     @Test
-    @DisplayName("Optional.Of(null)일 경우 NPE 에러 확인")
+    @DisplayName("Optional.Of(null)일 경우 NPE 에러 테스트")
     void optionalOfNullTest() {
         // given
         String str = null;
@@ -22,7 +22,7 @@ class OptionalExampleTest {
     }
 
     @Test
-    @DisplayName("Optional.OfNullable(null)일 때 empty 반환 확인")
+    @DisplayName("Optional.OfNullable(null)일 때 empty 반환 테스트")
     void optionalOfNullableTest() {
         //given
         String str = null;
@@ -35,7 +35,7 @@ class OptionalExampleTest {
     }
 
     @Test
-    @DisplayName("ofNullable(null)일 때 orElseGet을 통해 No Name 반환 확인")
+    @DisplayName("ofNullable(null)일 때 orElseGet을 통해 No Name 반환 테스트")
     void optionalOfNullableOrElseGetTest() {
         //given
         String str = null;
@@ -48,8 +48,8 @@ class OptionalExampleTest {
     }
 
     @Test
-    @DisplayName("orElse(null)")
-    void orElseIsNull() {
+    @DisplayName("orElse(null) 테스트")
+    void orElseIsNullTest() {
         //given
         Integer value = null;
 
@@ -61,8 +61,8 @@ class OptionalExampleTest {
     }
 
     @Test
-    @DisplayName("orElse(not null)")
-    void orElseNotNull() {
+    @DisplayName("orElse(not null) 테스트")
+    void orElseNotNullTest() {
         //given
         Integer value = 0;
 
@@ -74,8 +74,8 @@ class OptionalExampleTest {
     }
 
     @Test
-    @DisplayName("orElseGet(null)")
-    void orElseGetIsNull() {
+    @DisplayName("orElseGet(null) 테스트")
+    void orElseGetIsNullTest() {
         //given
         Integer value = null;
 
@@ -87,8 +87,8 @@ class OptionalExampleTest {
     }
 
     @Test
-    @DisplayName("orElseGet(not null)")
-    void orElseGetNotNull() {
+    @DisplayName("orElseGet(not null) 테스트")
+    void orElseGetNotNullTest() {
         //given
         Integer value = 0;
 
@@ -97,6 +97,16 @@ class OptionalExampleTest {
 
         // then
         assertEquals(result, 0);
+    }
+
+    @Test
+    @DisplayName("orElseThrow 테스트")
+    void orElseThrowTest() {
+        //given
+        String value = null;
+
+        //then
+        assertThrows(Exception.class, () -> Optional.ofNullable(value).orElseThrow(() -> new Exception("Error!")));
     }
 
     static Integer key = 0;
