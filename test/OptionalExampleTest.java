@@ -164,7 +164,11 @@ class OptionalExampleTest {
         List<Human> humans = getHumans();
 
         //when
-        List<String> names = humans.stream().filter(human -> human.getAge() >= 20).map(Human::getName).map(String::toUpperCase).collect(Collectors.toList());
+        List<String> names = humans.stream()
+                .filter(human -> human.getAge() >= 20)
+                .map(Human::getName)
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
 
         boolean isUpper = false;
         for (String name : names) {
@@ -175,6 +179,20 @@ class OptionalExampleTest {
 
         //then
         assertEquals(isUpper, true);
+    }
+
+    @Test
+    @DisplayName("String.join 테스트")
+    void stringJoinTest() {
+        //given
+        List<String> names = Arrays.asList("cho", "han", "sol");
+
+        //when
+        String joinString = String.join(",", names);
+        System.out.println("joinString = " + joinString);
+
+        //then
+        assertEquals(joinString, "cho,han,sol");
     }
 
 
