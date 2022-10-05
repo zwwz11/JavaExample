@@ -1,10 +1,17 @@
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -109,9 +116,96 @@ class OptionalExampleTest {
         assertThrows(Exception.class, () -> Optional.ofNullable(value).orElseThrow(() -> new Exception("Error!")));
     }
 
+    @Test
+    @DisplayName("stream filter findFirst Not Null 테스트")
+    void streamFilterNotNullTest() {
+        //given
+        List<String> names = getNames();
+
+        //when
+        Optional<String> findName = names.stream().filter(name -> name.equals("Han")).findFirst();
+        String name = findName.orElseGet(() -> "No Name");
+
+        //then
+        assertEquals(name, "Han");
+    }
+
+    @Test
+    @DisplayName("stream filter findfirst Null 테스트")
+    void streamFilterIsNullTest() {
+        //given
+        List<String> names = getNames();
+
+        //when
+        Optional<String> findName = names.stream().filter(name -> name.equals("EMPTH")).findFirst();
+        String name = findName.orElseGet(() -> "No Name");
+
+        //then
+        assertEquals(name, "No Name");
+    }
+
+    @Test
+    @DisplayName("Class To List By Name 테스트")
+    void classToListByNameTest() {
+        //given
+        List<Human> humans = getHumans();
+
+        //when
+        List<String> names = humans.stream().map(human -> human.getName()).collect(Collectors.toList());
+
+        //then
+        assertEquals(humans.stream().count(), names.stream().count());
+    }
+
+    @Test
+    @DisplayName("filter and Map 테스트")
+    void streamFilterMapTest() {
+        //given
+        List<Human> humans = getHumans();
+
+        //when
+        List<String> names = humans.stream().filter(human -> human.getAge() >= 20).map(Human::getName).map(String::toUpperCase).collect(Collectors.toList());
+
+        boolean isUpper = false;
+        for (String name : names) {
+            for (Character c : name.toCharArray()) {
+                isUpper = Character.isUpperCase(c);
+            }
+        }
+
+        //then
+        assertEquals(isUpper, true);
+    }
+
+
+
     static Integer key = 0;
     private Integer getKey() {
         key = 0;
         return key++;
     }
+
+    private List<String> getNames() {
+        return Arrays.asList("Han", "Cho", "Sol", "Kan", "Faker");
+    }
+
+    private List<Human> getHumans() {
+        Human humanA = new Human("hansol", 30);
+        Human humanB = new Human("huni", 22);
+        Human humanC = new Human("korean", 21);
+        Human humanD = new Human("whatthe", 10);
+        return Arrays.asList(humanA, humanB, humanC, humanD);
+    }
+
+    @Getter
+    @Setter
+    class Human {
+        public Human(String name, Integer age) {
+            this.name = name;
+            this.age = age;
+        }
+        String name;
+        Integer age;
+    }
+
 }
